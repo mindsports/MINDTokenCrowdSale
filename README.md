@@ -4,11 +4,11 @@ and give an overview over the smart contracts structure.
 
 ## Informal Specification
 
-CrowdSale Supply: 20,000,000 MIND
-Pricing: 1 ETH = 10000 MIND
-HardCap: 2000 ETH
-SoftCap: 200 ETH
-Bonus: 20% first 24 hours and decrease 5% every day
+* CrowdSale Supply: 20,000,000 MIND
+* Pricing: 1 ETH = 10000 MIND
+* HardCap: 2000 ETH
+* SoftCap: 200 ETH
+* Bonus: 20% first 24 hours and decrease 5% every day
 
 ## Detailed description
 
