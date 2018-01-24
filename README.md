@@ -9,6 +9,8 @@ and give an overview over the smart contracts structure.
 * HardCap: 2000 ETH
 * SoftCap: 200 ETH
 * Bonus: 20% first 24 hours and decrease 5% every day
+* Start Date: Feb 5 3pm UTC
+* End Date:  Feb 14 3pm UTC
 
 ## Detailed description
 
