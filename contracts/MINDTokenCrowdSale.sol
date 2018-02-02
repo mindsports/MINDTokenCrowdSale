@@ -34,6 +34,10 @@ contract MINDTokenCrowdSale is Ownable, CappedCrowdsale {
         token = MINDToken(_tokenAddr);
     }
 
+    function getToken() constant returns (address){
+      return token;
+    }
+
     /**
      * @dev Create the MIND token (override createTokenContract of StandardCrowdsale)
      * @return the StandardToken created
@@ -92,5 +96,13 @@ contract MINDTokenCrowdSale is Ownable, CappedCrowdsale {
         {
             CrowdSaleTokenSoldout();
         }
+    }
+
+    // @return true if the transaction can buy tokens
+    function validPurchase() 
+        internal 
+        returns(bool) 
+    {
+        return super.validPurchase() && msg.value >= 0.1 ether;
     }
 }

@@ -112,7 +112,7 @@ contract('Buy token sale', function(accounts) {
 		assert((new BigNumber(10).pow(18)).mul(24000).equals(await mindToken.balanceOf(randomGuy1)), "randomGuy1 balance");
 		assert((new BigNumber(10).pow(18)).mul(20000000-24000).equals(await mindToken.balanceOf(mindTokenCrowdSale.address)), "mindTokenCrowdSale.address balance");
 		// check money arrived :
-		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance");
+		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance 1");
 
 		// buy token within cap should work	
 		r = await mindTokenCrowdSale.sendTransaction({from:randomGuy1, value:weiSpend, gasPrice:gasPriceMax});
@@ -126,7 +126,7 @@ contract('Buy token sale', function(accounts) {
 		assert((new BigNumber(10).pow(18)).mul(48000).equals(await mindToken.balanceOf(randomGuy1)), "randomGuy1 balance");
 		assert((new BigNumber(10).pow(18)).mul(20000000-48000).equals(await mindToken.balanceOf(mindTokenCrowdSale.address)), "mindTokenCrowdSale.address balance");
 		// check money arrived :
-		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance");
+		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance 2");
 
 		// Second Day
 		// buy token after pre sale open by one day
@@ -142,7 +142,7 @@ contract('Buy token sale', function(accounts) {
 		assert((new BigNumber(10).pow(18)).mul(23000).equals(await mindToken.balanceOf(randomGuy3)), "randomGuy3 balance");
 		assert((new BigNumber(10).pow(18)).mul(19952000-23000).equals(await mindToken.balanceOf(mindTokenCrowdSale.address)), "mindTokenCrowdSale.address balance");
 		// check money arrived :
-		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance");
+		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance 3");
 
 		// Third day
 		addsDayOnEVM(1);
@@ -157,7 +157,7 @@ contract('Buy token sale', function(accounts) {
 		assert((new BigNumber(10).pow(18)).mul(22000).equals(await mindToken.balanceOf(randomGuy4)), "randomGuy4 balance");
 		assert((new BigNumber(10).pow(18)).mul(19929000-22000).equals(await mindToken.balanceOf(mindTokenCrowdSale.address)), "mindTokenCrowdSale.address balance");
 		// check money arrived :
-		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance");
+		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance 4");
 
 		// Forth day
 		addsDayOnEVM(1);
@@ -172,7 +172,7 @@ contract('Buy token sale', function(accounts) {
 		assert((new BigNumber(10).pow(18)).mul(21000).equals(await mindToken.balanceOf(randomGuy5)), "randomGuy5 balance");
 		assert((new BigNumber(10).pow(18)).mul(19907000-21000).equals(await mindToken.balanceOf(mindTokenCrowdSale.address)), "mindTokenCrowdSale.address balance");
 		// check money arrived :
-		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance");
+		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance 5");
 
 		// Fifth day
 		addsDayOnEVM(1);
@@ -187,7 +187,7 @@ contract('Buy token sale', function(accounts) {
 		assert((new BigNumber(10).pow(18)).mul(20000).equals(await mindToken.balanceOf(randomGuy6)), "randomGuy6 balance");
 		assert((new BigNumber(10).pow(18)).mul(19886000-20000).equals(await mindToken.balanceOf(mindTokenCrowdSale.address)), "mindTokenCrowdSale.address balance");
 		// check money arrived :
-		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance");
+		assert((new BigNumber(walletBalanceEthBefore)).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).add(weiSpend).equals(await web3.eth.getBalance(foundationWallet)), "foundationWallet eth balance 6");
 	});
 
 	it("buy token impossible", async function() {
@@ -235,6 +235,22 @@ contract('Buy token sale', function(accounts) {
 		assert((new BigNumber(10).pow(18)).mul(20000000).equals(await mindToken.balanceOf(randomGuy1)), "randomGuy1 balance");
 		// buy overpass total Hard cap => opcode
 		await expectThrow(mindTokenCrowdSale.sendTransaction({from:randomGuy2,value:weiSpend1, gasPrice:gasPriceMax}));
+	});
+
+	it("buy too less", async function() {
+		
+		// pass all bonus day
+		addsDayOnEVM(42);
+		
+		var weiSpend = web3.toWei(0.09, "ether");
+		
+		await expectThrow(mindTokenCrowdSale.sendTransaction({from:randomGuy1,value:weiSpend, gasPrice:gasPriceMax}));
+
+		var weiSpendleast = web3.toWei(0.1, "ether");
+		
+		await mindTokenCrowdSale.sendTransaction({from:randomGuy1, value:weiSpendleast, gasPrice:gasPriceMax});
+
+		assert((new BigNumber(10).pow(18)).mul(1000).equals(await mindToken.balanceOf(randomGuy1)), "randomGuy1 balance");
 	});
 
 
